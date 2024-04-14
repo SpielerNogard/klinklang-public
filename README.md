@@ -1,6 +1,7 @@
 # klinklang
 
 A new super fast PTC Account generator.
+The code is closed source, but the project remains public
 
 # Setup
 
