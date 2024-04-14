@@ -1,7 +1,6 @@
 # klinklang
 
 A new super fast PTC Account generator.
-The code is closed source, but the project remains public
 
 # Setup
 
@@ -9,7 +8,8 @@ The code is closed source, but the project remains public
 - a linux (tested on ubuntu) x86 system
 - python installed
 - docker installed with docker compose
-
+- proxies (Only IPAuth is supported)
+- 
 ## SetupProcess
 1. install PyYaml `pip install PyYaml`
 2. run the config generator `python configgenerator.py`
@@ -56,8 +56,13 @@ def db_return(result):
 accounts = db_return(account_table.find())
 # format is {'email': 'email', 'username': 'username', 'screenname': 'screenname', 'password': 'password', 'dob': '1994-10-06'}
 # print the accounts in RDM format
+lines = []
 for account in accounts:
     print(account['username'], account['password'])
+    lines.append(f"{account['username']}, {account['password']}\n")
+
+with open('accounts.txt','w') as out_file:
+    out_file.writelines(lines)
 ```
 
 # TODOS
