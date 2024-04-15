@@ -11,8 +11,8 @@ def get_database_config():
         host = input('Please provide your database host ip: ')
 
 
-    username = input_with_default("The database host: ", "mongodb")
-    password = input_with_default("The database username: ", "mongoadmin")
+    username = input_with_default("The database username: ", "mongodb")
+    password = input_with_default("The database password: ", "mongoadmin")
     database_name = input_with_default("The database name: ", "klinklang")
 
     return {'container':container, 'database':{'host':host, 'username':username, 'password':password, 'database_name':database_name}}
