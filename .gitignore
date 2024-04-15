@@ -1,7 +1,7 @@
 .idea/
 *.pyc
-klinklang/imperva/core/scizorproxy.crx
-klinklang/imperva/core/scizorproxy.pem
+klinklang_public/imperva/core/scizorproxy.crx
+klinklang_public/imperva/core/scizorproxy.pem
 .DS_Store
 proxies.txt
 all_in_one/proxies.txt

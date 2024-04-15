@@ -1,4 +1,4 @@
-from klinklang.core.config_generation.input_with_default import input_with_default
+from klinklang_public.core.config_generation.input_with_default import input_with_default
 
 
 def get_mail_reader_config():
@@ -27,7 +27,7 @@ def get_mail_reader_config():
 def get_container_config_from_mail_reader(mail_config, build:bool=False):
     compose =  {"mail_reader": {
             "container_name": "klingklang-mail-reader",
-            "image": "stctmuel/klinklang-mail-reader",
+            "image": "stctmuel/klinklang_public-mail-reader",
             "extra_hosts": ["host.docker.internal:host-gateway"],
             "restart": "unless-stopped",
             "logging": {

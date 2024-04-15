@@ -4,14 +4,14 @@ from copy import deepcopy
 
 import yaml
 
-from klinklang.core.config_generation.database_config import get_database_config, get_container_config_from_db_config
-from klinklang.core.config_generation.domain_config import get_domain_config
-from klinklang.core.config_generation.mail_reader_config import get_mail_reader_config, \
+from klinklang_public.core.config_generation.database_config import get_database_config, get_container_config_from_db_config
+from klinklang_public.core.config_generation.domain_config import get_domain_config
+from klinklang_public.core.config_generation.mail_reader_config import get_mail_reader_config, \
     get_container_config_from_mail_reader
-from klinklang.core.config_generation.mail_server_config import get_mail_server_config, \
+from klinklang_public.core.config_generation.mail_server_config import get_mail_server_config, \
     get_container_config_from_mail_server
-from klinklang.core.config_generation.proxy_config import get_proxy_config, get_container_config_from_proxy
-from klinklang.core.config_generation.queue_config import get_container_config_from_queue_config, get_queue_config
+from klinklang_public.core.config_generation.proxy_config import get_proxy_config, get_container_config_from_proxy
+from klinklang_public.core.config_generation.queue_config import get_container_config_from_queue_config, get_queue_config
 
 DOCKERCOMPOSE = {
     "version": "3.2",
@@ -41,7 +41,7 @@ base_config = {}
 build= False
 if '--build' in sys.argv:
     build = True
-print("Welcome to klinklang!")
+print("Welcome to klinklang_public!")
 if os.path.isfile("docker-compose.yml") and os.path.exists("config.yml"):
     if (
         input_with_default(
@@ -70,5 +70,5 @@ with open("docker-compose.yml", "w") as ymlfile:
 #     config = yaml.safe_load(ymlfile)
 #
 # print(config)
-if input_with_default("Do you want to start klinklang?", default="y") == "y":
+if input_with_default("Do you want to start klinklang_public?", default="y") == "y":
     os.system("docker compose up -d --build --force-recreate")

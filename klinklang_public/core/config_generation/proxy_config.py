@@ -1,4 +1,4 @@
-from klinklang.core.config_generation.input_with_default import input_with_default
+from klinklang_public.core.config_generation.input_with_default import input_with_default
 import os
 
 def get_proxy_config():
@@ -17,7 +17,7 @@ def get_proxy_config():
 def get_container_config_from_proxy(config, build:bool=False):
     compose =  {"proxy_rotation": {
             "container_name": "klingklang-proxy-handler",
-            "image": "stctmuel/klinklang-proxy-rotation",
+            "image": "stctmuel/klinklang_public-proxy-rotation",
             "extra_hosts": ["host.docker.internal:host-gateway"],
             "restart": "unless-stopped",
             "logging": {
@@ -32,7 +32,7 @@ def get_container_config_from_proxy(config, build:bool=False):
             "depends_on": ["mongodb", "rabbitmq"],
         },
         "cookie_generation": {
-            "image": "stctmuel/klinklang-cookie-generation",
+            "image": "stctmuel/klinklang_public-cookie-generation",
             "extra_hosts": ["host.docker.internal:host-gateway"],
             "restart": "unless-stopped",
             "logging": {
@@ -47,7 +47,7 @@ def get_container_config_from_proxy(config, build:bool=False):
             'deploy':{'mode':'replicated', 'replicas':config['cookie_workers']}
         },
         "account_generation": {
-            "image": "stctmuel/klinklang-account-creation",
+            "image": "stctmuel/klinklang_public-account-creation",
             "extra_hosts": ["host.docker.internal:host-gateway"],
             "restart": "unless-stopped",
             "logging": {
