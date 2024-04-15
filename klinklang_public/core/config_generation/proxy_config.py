@@ -1,4 +1,4 @@
-from klinklang.core.config_generation.input_with_default import input_with_default
+from klinklang_public.core.config_generation.input_with_default import input_with_default
 import os
 
 def get_proxy_config():
@@ -60,6 +60,20 @@ def get_container_config_from_proxy(config, build:bool=False):
             "networks": ["klinklang_net"],
             "depends_on": ["mongodb", "rabbitmq"],
             'deploy': {'mode': 'replicated', 'replicas': config['account_workers']}
+        },
+        "stats_collector": {
+            "image": "stctmuel/klinklang-stats_collector",
+            "extra_hosts": ["host.docker.internal:host-gateway"],
+            "restart": "unless-stopped",
+            "logging": {
+                "driver": "json-file",
+                "options": {"max-size": "1m", "max-file": "3"},
+            },
+            "volumes": [
+                "./config.yml:/app/config.yml",
+            ],
+            "networks": ["klinklang_net"],
+            "depends_on": ["mongodb", "rabbitmq"],
         }
     }
     if build:
@@ -108,6 +122,20 @@ def get_container_config_from_proxy(config, build:bool=False):
                 "networks": ["klinklang_net"],
                 "depends_on": ["mongodb", "rabbitmq"],
                 'deploy': {'mode': 'replicated', 'replicas': config['account_workers']}
+            },
+            "stats_collector": {
+                "build": {"context": ".", "dockerfile": "stats_collector/Dockerfile"},
+                "extra_hosts": ["host.docker.internal:host-gateway"],
+                "restart": "unless-stopped",
+                "logging": {
+                    "driver": "json-file",
+                    "options": {"max-size": "1m", "max-file": "3"},
+                },
+                "volumes": [
+                    "./config.yml:/app/config.yml",
+                ],
+                "networks": ["klinklang_net"],
+                "depends_on": ["mongodb", "rabbitmq"],
             }
         }
 

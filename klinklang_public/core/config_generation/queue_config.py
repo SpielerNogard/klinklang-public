@@ -1,4 +1,4 @@
-from klinklang.core.config_generation.input_with_default import input_with_default
+from klinklang_public.core.config_generation.input_with_default import input_with_default
 
 
 def get_queue_config():
@@ -21,7 +21,7 @@ def get_container_config_from_queue_config(queue_config:dict, build:bool=False):
     compose = {
         "rabbitmq": {
             "image": "rabbitmq:3-management-alpine",
-            "container_name": "klinklang-queue",
+            "container_name": "klinklang_public-queue",
             "ports": ["5672:5672", "15672:15672"],
             "volumes": [
                 ".queue/data/:/var/lib/rabbitmq/",
