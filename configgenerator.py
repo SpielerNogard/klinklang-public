@@ -12,7 +12,7 @@ from klinklang_public.core.config_generation.mail_server_config import get_mail_
     get_container_config_from_mail_server
 from klinklang_public.core.config_generation.proxy_config import get_proxy_config, get_container_config_from_proxy
 from klinklang_public.core.config_generation.queue_config import get_container_config_from_queue_config, get_queue_config
-
+from klinklang_public.core.config_generation.exporter_config import get_export_config, get_container_config_from_export
 DOCKERCOMPOSE = {
     "version": "3.2",
     "services": {
@@ -32,7 +32,8 @@ CONFIGS ={'database':{'container':get_container_config_from_db_config, 'config':
           'mail_server':{'config':get_mail_server_config, 'container':get_container_config_from_mail_server},
 'mail_reader':{'config':get_mail_reader_config, 'container':get_container_config_from_mail_reader},
           'domains':{'config':get_domain_config},
-          'proxies':{'config':get_proxy_config, 'container':get_container_config_from_proxy}
+          'proxies':{'config':get_proxy_config, 'container':get_container_config_from_proxy},
+          "export":{'config':get_export_config, 'container':get_container_config_from_export},
           }
 
 base_compose = deepcopy(DOCKERCOMPOSE)
@@ -41,7 +42,7 @@ base_config = {}
 build= False
 if '--build' in sys.argv:
     build = True
-print("Welcome to klinklang_public!")
+print("Welcome to klinklang!")
 if os.path.isfile("docker-compose.yml") and os.path.exists("config.yml"):
     if (
         input_with_default(
@@ -70,5 +71,5 @@ with open("docker-compose.yml", "w") as ymlfile:
 #     config = yaml.safe_load(ymlfile)
 #
 # print(config)
-if input_with_default("Do you want to start klinklang_public?", default="y") == "y":
+if input_with_default("Do you want to start klinklang?", default="y") == "y":
     os.system("docker compose up -d --build --force-recreate")

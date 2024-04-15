@@ -11,7 +11,7 @@ def get_mail_server_config():
 def get_container_config_from_mail_server(mail_config, build:bool=False):
     compose =  {"mail_server": {
             "container_name": "klingklang-mail",
-            "image": "stctmuel/klinklang_public-mail-server",
+            "image": "stctmuel/klinklang-mail-server",
             "extra_hosts": ["host.docker.internal:host-gateway"],
             "ports": [f"{mail_config.get('mailserver',{}).get('port',25)}:25"],
             "restart": "unless-stopped",

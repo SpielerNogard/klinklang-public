@@ -13,7 +13,7 @@ def get_database_config():
 
     username = input_with_default("The database username: ", "mongodb")
     password = input_with_default("The database password: ", "mongoadmin")
-    database_name = input_with_default("The database name: ", "klinklang_public")
+    database_name = input_with_default("The database name: ", "klinklang")
 
     return {'container':container, 'database':{'host':host, 'username':username, 'password':password, 'database_name':database_name}}
 
@@ -21,7 +21,7 @@ def get_container_config_from_db_config(database_config:dict, build:bool=False):
 
     compose = {"mongodb": {
         "image": "mongo:6-jammy",
-        "container_name": "klinklang_public-database",
+        "container_name": "klinklang-database",
         "ports": ["27017:27017"],
         "volumes": ["./database:/data/db"],
         "networks": ["klinklang_net"],

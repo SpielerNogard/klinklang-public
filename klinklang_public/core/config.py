@@ -15,7 +15,13 @@ from klinklang_public import logger
 class ExportConfig(BaseModel):
     rate :int = 3600
     destination : Literal['DRAGONITE', 'RDM']
-    discord : Optional[str] = None
+    discord : bool = False
+    webhook : str = None
+    host : str
+    password : str
+    username : str
+    db_name : str
+    table_name : str
 
 class DatabaseConfig(BaseModel):
     host: str
