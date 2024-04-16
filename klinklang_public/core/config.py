@@ -22,7 +22,7 @@ class ExportConfig(BaseModel):
     username : str
     db_name : str
     table_name : str
-    port : int
+    port : int =3306
 
 class DatabaseConfig(BaseModel):
     host: str

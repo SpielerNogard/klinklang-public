@@ -19,7 +19,7 @@ A new super fast PTC Account generator.
 
 ## Updating
 1. Use `docker-compose pull` to pull the latest image versions
-2. Use `docker-compose up -d` to restart your docker stack
+2. Use `docker-compose up -d --force-recreate` to restart your docker stack
 
 ## Updating if a the config has changed
 1. Use `git pull` to get the newest configgenerator
