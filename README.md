@@ -21,6 +21,11 @@ A new super fast PTC Account generator.
 1. Use `docker-compose pull` to pull the latest image versions
 2. Use `docker-compose up -d` to restart your docker stack
 
+## Updating if a the config has changed
+1. Use `git pull` to get the newest configgenerator
+2. Use `python configgenerator.py` to generate a new config and compose
+3. Follow #Updating
+
 # Notes
 all accounts are stored to the database, we currently have no GUI to access them. So you need a little script to get your accounts from database
 

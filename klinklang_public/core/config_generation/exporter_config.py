@@ -17,7 +17,8 @@ def get_export_config():
         password = input('Please provide the password of this database: ')
         db_name = input('Please provide the name of the database: ')
         table_name = input_with_default("What table name should be used ? ", default="account")
-        export_config = {'export': True, 'host':host, 'password':password, 'username':username, 'db_name':db_name, 'table_name':table_name, 'destination':destination}
+        port = input_with_default("What port should be used ? ", default="3306")
+        export_config = {'export': True, 'host':host, 'password':password, 'username':username, 'db_name':db_name, 'table_name':table_name, 'destination':destination, 'port':port}
 
         activate_discord = input_with_default("Do you want to send messages to Discord with stats? [n/y]", default="n")
         export_config['discord'] = False
