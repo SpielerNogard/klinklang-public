@@ -1,4 +1,4 @@
-from klinklang.core.config_generation.input_with_default import input_with_default
+from klinklang_public.core.config_generation.input_with_default import input_with_default
 
 
 def get_database_config():
