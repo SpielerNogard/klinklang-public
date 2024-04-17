@@ -6,7 +6,7 @@ A new super fast PTC Account generator.
 
 ## Prequisites
 - a linux (tested on ubuntu) x86 system
-- python installed
+- python installed `python >= 3.8`
 - docker installed with docker compose
 - proxies (Only IPAuth is supported)
 - 
