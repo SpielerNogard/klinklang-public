@@ -86,6 +86,8 @@ Supported Authentication Methods are:
 2. Username/Password
    every line should be `{username}:{password}@{ip}:{port}`
    for example: `username:password@104.143.224.13:5874`
+   
+   !!Attention!! this does not work any longer
 
 ### My proxy provider provides me with own proxy rotation and unlimited proxies. What to do ? 
 first disable the proxy check in your `config.yml`. Now you can add the proxy endpoint to your proxies.txt but this time
