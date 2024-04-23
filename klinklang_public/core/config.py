@@ -13,16 +13,17 @@ from klinklang_public import logger
 
 
 class ExportConfig(BaseModel):
-    rate :int = 3600
-    destination : Literal['DRAGONITE', 'RDM']
-    discord : bool = False
-    webhook : str = None
-    host : str
-    password : str
-    username : str
-    db_name : str
-    table_name : str
-    port : int =3306
+    rate: int = 3600
+    destination: Literal["DRAGONITE", "RDM"]
+    discord: bool = False
+    webhook: str = None
+    host: str
+    password: str
+    username: str
+    db_name: str
+    table_name: str
+    port: int = 3306
+
 
 class DatabaseConfig(BaseModel):
     host: str
@@ -83,21 +84,25 @@ class QueueConfig(BaseModel):
             channel = connection.channel()
             return channel
         except Exception as e:
-            logger.error(f'Queue connection failed: {e=}')
+            logger.error(f"Queue connection failed: {e=}")
             time.sleep(10)
-            logger.info('Trying again ...')
+            logger.info("Trying again ...")
             return self.connect()
 
 
 class ProxyConfig(BaseModel):
     use_free: bool = False
     check_before_usage: bool = True
+    cooldown: int = 900
+
 
 class Domain(BaseModel):
     domain_name: str
 
+
 class DomainConfig(BaseModel):
-    domains:List[Domain]
+    domains: List[Domain]
+
 
 class Config(BaseModel):
     database: DatabaseConfig
@@ -106,7 +111,8 @@ class Config(BaseModel):
     mailreader: Optional[MailReaderConfig]
     proxies: ProxyConfig
     domains: DomainConfig
-    export : Optional[ExportConfig]
+    export: Optional[ExportConfig]
+
 
 def read_config(filename: str = "config.yml") -> Config:
     with open(filename, "r") as config_file:
