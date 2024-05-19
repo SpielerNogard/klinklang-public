@@ -16,23 +16,74 @@ A new super fast PTC Account generator.
    - answer all questions from it
    - it will automaticaly start all containers
    - if not run `docker compose up -d`
+3. install requirements for account_generator `pip install -r account_generation/requirements.txt`
+4. create your config.yml `cp account_generation/config.example.yml account_generation/config.yml`
+5. edit your config.yml according to your needs for more info see `AccountGenerationConfig` section
+6. start account generation `python account_generation/account_generator.py`
 
-## Updating
-1. Use `docker-compose pull` to pull the latest image versions
-2. Use `docker-compose up -d --force-recreate` to restart your docker stack
+## AccountGenerationConfig
+```yaml
+database:
+  database_name: klinklang
+  host: databasehost
+  password: mongoadmin
+  username: mongodb
+domains:
+  - domain_name: mail.i-love-imperva.de
+proxies:
+  - proxy: 123.123.123
+    rotating: false
+  - proxy: 123.123.124
+accounts:
+  save_to_file : true
+  format: '{email}, {username}, {password}, {dob}'
+```
+`database` Configuration for your Database Connection
+- `database_name` the name of your database
+- `host` the host of your database (can be ip or hostname)
+- `password` the password of your database
+- `username` the username of your database
 
-## Updating if a the config has changed
-1. Use `git pull` to get the newest configgenerator
-2. Use `python configgenerator.py` to generate a new config and compose
-3. Follow #Updating
+`domains` Configuration for the domains, which should be used for account generation, this is a list
+- `domain_name` the domain_name (the email) example: `mail.i-love-imperva.de` this would generate the mails `{account_name}@mail.i-love-imperva.de`
 
-# Notes
-all accounts are stored to the database, we currently have no GUI to access them. So you need a little script to get your accounts from database
+`proxies` Configuration for your proxies. This part also can be deleted, if the ip of your machine should be used, this is also a list
+- `proxy` The ip and port of your proxy example `https://123.123.123.3:9000`
+- `rotating` : default `False` if `True` the proxy will not have any cooldown between usages, your proxy provider will handle the rotation
 
-every cookie generator can handle 7 Account Generators
+`accounts` Configuration for storing your generated accounts to files
+- `save_to_file` : if `True` the accounts will be saved to a file
+- `format` : The format in which the accounts should be stored in the file. `{email}` will be replace with the account email, `{username}` with the username, `password` with the password, `{dob}` with the date of birth
 
-with 250 proxies and 2 CookieGenerators and 10 AccountsGenerators we use around 6GB of ram, while generating 10 accounts/sec
+Example if your machines ip should be used
+```yaml
+database:
+  database_name: klinklang
+  host: databasehost
+  password: mongoadmin
+  username: mongodb
+domains:
+  - domain_name: mail.i-love-imperva.de
+accounts:
+  save_to_file : true
+  format: '{email}, {username}, {password}, {dob}'
+```
 
+Example if the accounts should only be saved to the database
+```yaml
+database:
+  database_name: klinklang
+  host: databasehost
+  password: mongoadmin
+  username: mongodb
+domains:
+  - domain_name: mail.i-love-imperva.de
+accounts:
+  save_to_file : false
+  format: '{email}, {username}, {password}, {dob}'
+```
+
+## Notes
 ```python
 import pymongo
 from urllib.parse import quote_plus
@@ -70,29 +121,7 @@ with open('accounts.txt','w') as out_file:
     out_file.writelines(lines)
 ```
 
-# TODOS
-- [ ] add a GUI
-- [ ] optimize proxy rotation
-
 # FAQ
-
-## Proxies
-### What proxies are supported ?
-We should support nearly every proxy provider. They need to be provided in a file `proxies.txt` with one proxy per line
-Supported Authentication Methods are: 
-1. IP-Authorization
-   every line should be `{ip}:{port}`
-   for example: `104.143.224.13:5874`
-2. Username/Password
-   every line should be `{username}:{password}@{ip}:{port}`
-   for example: `username:password@104.143.224.13:5874`
-   
-   !!Attention!! this does not work any longer
-
-### My proxy provider provides me with own proxy rotation and unlimited proxies. What to do ? 
-first disable the proxy check in your `config.yml`. Now you can add the proxy endpoint to your proxies.txt but this time
-you add ad `/unlimited` behind it. For example `104.143.224.13:5874/unlimited` or `username:password@104.143.224.13:5874/unlimited`.
-You can mix both unlimited and normal proxies
 
 ## Mails
 ### What is the difference between MailReader and MailServer ?

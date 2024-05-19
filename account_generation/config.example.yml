@@ -1,0 +1,14 @@
+database:
+  database_name: klinklang
+  host: databasehost
+  password: mongoadmin
+  username: mongodb
+domains:
+  - domain_name: mail.i-love-imperva.de
+proxies:
+  - proxy: 123.123.123
+    rotating: false
+  - proxy: 123.123.124
+accounts:
+  save_to_file : true
+  format: '{email}, {username}, {password}, {dob}'
