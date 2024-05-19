@@ -106,10 +106,10 @@ class DomainConfig(BaseModel):
 
 class Config(BaseModel):
     database: DatabaseConfig
-    queue: QueueConfig
+    #queue: QueueConfig
     mailserver: Optional[MailServerConfig]
     mailreader: Optional[MailReaderConfig]
-    proxies: ProxyConfig
+    #proxies: ProxyConfig
     domains: DomainConfig
     export: Optional[ExportConfig]
 
