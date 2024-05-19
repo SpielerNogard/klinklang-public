@@ -5,11 +5,11 @@ A new super fast PTC Account generator.
 # Setup
 
 ## Prequisites
-- a linux (tested on ubuntu) x86 system
-- python installed `python >= 3.8`
+- linux (x86/arm), mac os (x86/arm) or windows (x86) system
+- python installed `python == 3.11`
 - docker installed with docker compose
-- proxies (Only IPAuth is supported)
-- 
+- proxies (Only IPAuth is supported) (Not needed, if you want to use your home ip)
+
 ## SetupProcess
 1. install PyYaml `pip install PyYaml`
 2. run the config generator `python configgenerator.py`

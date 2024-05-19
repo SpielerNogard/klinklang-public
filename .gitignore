@@ -23,6 +23,7 @@ scrapoxy/
 *.egg-info
 __pycache__
 klinklang_frontend
-
+*/dist
+*/account_generator_.py
 account_generation/account_generator_.py
 account_generation/dist
