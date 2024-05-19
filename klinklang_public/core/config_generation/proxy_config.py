@@ -73,7 +73,7 @@ def get_container_config_from_proxy(config, build:bool=False):
                 "./config.yml:/app/config.yml",
             ],
             "networks": ["klinklang_net"],
-            "depends_on": ["mongodb", "rabbitmq"],
+            "depends_on": ["mongodb"],
         }
     }
     if build:
