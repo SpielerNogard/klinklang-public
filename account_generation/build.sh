@@ -1,5 +1,6 @@
 echo "Building klinklang..."
 rm -rf dist
+rm -rf pyarmor_runtime_000000
 pip install pyarmor
 pyarmor gen .
 if [ -d "dist" ]; then
