@@ -5,7 +5,7 @@ A new super fast PTC Account generator.
 # Setup
 
 ## Prequisites
-- linux (x86/arm), mac os (x86/arm) or windows (x86) system
+- linux (x86/arm), mac os (x86/arm) or windows (x86) system, the accountgeneration, need a desktop. The dockers can also run headless
 - Google Chrome installed
 - python installed `python == 3.11`
 - docker installed with docker compose
