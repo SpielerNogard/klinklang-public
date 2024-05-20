@@ -21,6 +21,7 @@ A new super fast PTC Account generator.
 4. create your config.yml `cp account_generation/config.example.yml account_generation/config.yml`
 5. edit your config.yml according to your needs for more info see `AccountGenerationConfig` section
 6. start account generation `python account_generation/account_generator.py`
+7. For your license, ask the discord bot for help `$help` in any channel of our server 
 
 ## AccountGenerationConfig
 ```yaml
