@@ -12,3 +12,4 @@ proxies:
 accounts:
   save_to_file : true
   format: '{email}, {username}, {password}, {dob}'
+proxy_file: proxies.txt
