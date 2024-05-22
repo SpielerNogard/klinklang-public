@@ -139,3 +139,19 @@ If you use the MailServer you `dont` need the MailReader
 The `MailReader` is a service, which can be used if your domain provider already provides you with a mail server. It will login using the provided
 username and password to your mail account and will read **all** messages. If the message contains a verification code it will be saved to the database
 for later usage in account activation. Messages from niantic will be deleted after they was read.
+
+## PM2
+### How do i run AccountGeneration in pm2? 
+To run updated account_generator in pm2:
+
+1. 'pm2 start' as normal (see bottom of message for examples)
+2. use 'pm2 status' to get the pid or ID or whatever for Klinklang account gen
+3. use 'pm2 attach 0' (replace 0 with the ID you got on the last step).
+
+At this point you'll see what appears to be an empty line, paste your license number in and hit enter and it should start up. Then you can Ctrl-C or do whatever you want, at that point it's the same as if you ran 'pm2 log'
+
+Examples:
+`pm2 start path/account_generator.py --name klinklang`
+
+If using venv:
+`pm2 start path/account_generator.py --name klinklang --interpreter /path/to/venv/bin/python`
