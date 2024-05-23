@@ -13,3 +13,5 @@ accounts:
   save_to_file : true
   format: '{email}, {username}, {password}, {dob}'
 proxy_file: proxies.txt
+license: my_fancy_license
+show_total_accounts: false

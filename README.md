@@ -40,6 +40,7 @@ accounts:
   save_to_file : true
   format: '{email}, {username}, {password}, {dob}'
 proxy_file: proxies.txt
+license: my_fancy_license
 ```
 `database` Configuration for your Database Connection
 - `database_name` the name of your database
@@ -60,6 +61,8 @@ proxy_file: proxies.txt
 
 `proxy_file` The name of the file, from which the accounts should be loaded, can be deleted
 - format is `ip:port`. if you add a `/rotating` behind the proxy for example: `ip:port/rotating` the proxy will be marked as rotating
+
+`license` Your license key, if not given the program will give you a prompt
 
 Example if your machines ip should be used
 ```yaml
