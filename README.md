@@ -41,6 +41,7 @@ accounts:
   format: '{email}, {username}, {password}, {dob}'
 proxy_file: proxies.txt
 license: my_fancy_license
+show_total_accounts: false
 ```
 `database` Configuration for your Database Connection
 - `database_name` the name of your database
@@ -63,6 +64,7 @@ license: my_fancy_license
 - format is `ip:port`. if you add a `/rotating` behind the proxy for example: `ip:port/rotating` the proxy will be marked as rotating
 
 `license` Your license key, if not given the program will give you a prompt
+`show_total_accounts` set it to true, if the total count of generated accounts should be shown
 
 Example if your machines ip should be used
 ```yaml
