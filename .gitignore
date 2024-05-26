@@ -27,3 +27,5 @@ klinklang_frontend
 */account_generator_.py
 account_generation/account_generator_.py
 account_generation/dist
+account_generation/accounts
+account_generation/stats
