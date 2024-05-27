@@ -29,3 +29,5 @@ account_generation/account_generator_.py
 account_generation/dist
 account_generation/accounts
 account_generation/stats
+account_generation/downloaded_files
+.venv

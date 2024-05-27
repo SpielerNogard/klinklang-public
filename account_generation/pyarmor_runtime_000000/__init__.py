@@ -1,4 +1,4 @@
-# Pyarmor 8.5.8 (trial), 000000, 2024-05-26T21:50:40.446537
+# Pyarmor 8.5.8 (trial), 000000, 2024-05-27T05:45:18.543077
 def __pyarmor__():
     import platform
     import sys
@@ -43,7 +43,7 @@ def __pyarmor__():
         bitness = calcsize('P'.encode()) * 8
         if bitness == 32:
             mach = 'x86'
-    # mach = 'universal' if plat == 'darwin' else mach
+    mach = 'universal' if plat == 'darwin' else mach
     name = '.'.join(['_'.join([plat, mach]), 'pyarmor_runtime'])
     return __import__(name, globals(), locals(), ['__pyarmor__'], level=1)
 __pyarmor__ = __pyarmor__().__pyarmor__

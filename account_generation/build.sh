@@ -2,7 +2,7 @@ echo "Building klinklang..."
 rm -rf dist
 rm -rf pyarmor_runtime_000000
 pip install pyarmor
-pyarmor gen --platform windows.x86_64 --platform linux.x86_64 --platform darwin.x86_64 --platform darwin.arm64 --platform linux.aarch64 .
+pyarmor gen --platform windows.x86_64 --platform linux.x86_64 --platform darwin.x86_64 --platform darwin.aarch64 --platform linux.aarch64 account_generator_.py
 if [ -d "dist" ]; then
     echo "'dist/' directory created."
 else
