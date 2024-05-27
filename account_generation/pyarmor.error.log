@@ -1,4 +1,4 @@
-80862 MainProcess 2024-05-27 19:36:45,270
+81866 MainProcess 2024-05-27 20:00:39,528
 Traceback (most recent call last):
   File "/Users/christophermuller/miniconda3/envs/scyther/lib/python3.11/site-packages/pyarmor/cli/__main__.py", line 757, in main
     main_entry(sys.argv[1:])
@@ -19,14 +19,7 @@ Traceback (most recent call last):
   File "/Users/christophermuller/miniconda3/envs/scyther/lib/python3.11/site-packages/pyarmor/cli/__init__.py", line 16, in process
     return meth(self, res, *args, **kwargs)
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "<maker>", line 501, in process
-  File "/Users/christophermuller/miniconda3/envs/scyther/lib/python3.11/site-packages/pyarmor/cli/resource.py", line 144, in reparse
-    self.mtree = ast.parse(''.join(lines), self.frozenname, 'exec')
-                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/christophermuller/miniconda3/envs/scyther/lib/python3.11/ast.py", line 50, in parse
-    return compile(source, filename, mode, flags,
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "<frozen account_generator_>", line 268
-    def create_driver(proxy: str = None,config:Config, counter: int = 0):
-                                        ^^^^^^^^^^^^^
-SyntaxError: non-default argument follows default argument
+  File "<maker>", line 532, in process
+  File "<maker>", line 538, in coserialize
+  File "<maker>", line 583, in _build_ast_body
+RuntimeError: out of license
