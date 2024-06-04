@@ -31,3 +31,5 @@ account_generation/accounts
 account_generation/stats
 account_generation/downloaded_files
 .venv
+
+account_auth

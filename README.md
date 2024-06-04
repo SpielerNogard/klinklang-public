@@ -43,6 +43,8 @@ proxy_file: proxies.txt
 license: my_fancy_license
 show_total_accounts: false
 headless : true
+names_generator : true
+account_password : 'MYFancyPassword99#'
 ```
 `database` Configuration for your Database Connection
 - `database_name` the name of your database
@@ -68,6 +70,9 @@ headless : true
 `show_total_accounts` set it to true, if the total count of generated accounts should be shown
 `headless` : `true` is the default, set it to `false` if you want to see the browser window, nice for debugging
 Example if your machines ip should be used
+`names_generator` set to `true`to use more realisitc usernames
+`account_password` if set all accounts will have the same password, if not a new random password will be generated
+
 ```yaml
 database:
   database_name: klinklang
