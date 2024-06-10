@@ -166,3 +166,5 @@ Examples:
 
 If using venv:
 `pm2 start path/account_generator.py --name klinklang --interpreter /path/to/venv/bin/python`
+
+![Alt](https://repobeats.axiom.co/api/embed/93648957b6caf0ded61013da22c2e0abaf820911.svg "Repobeats analytics image")
