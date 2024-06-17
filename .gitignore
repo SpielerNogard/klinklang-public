@@ -25,6 +25,7 @@ __pycache__
 klinklang_frontend
 */dist
 */account_generator_.py
+*/utils_.py
 account_generation/account_generator_.py
 account_generation/dist
 account_generation/accounts
