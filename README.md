@@ -62,7 +62,7 @@ mail_prefix: my_fancy_prefix
 
 `accounts` Configuration for storing your generated accounts to files
 - `save_to_file` : if `True` the accounts will be saved to a file
-- `format` : The format in which the accounts should be stored in the file. `{email}` will be replace with the account email, `{username}` with the username, `password` with the password, `{dob}` with the date of birth
+- `format` : The format in which the accounts should be stored in the file. `{email}` will be replace with the account email, `{username}` with the username, `password` with the password, `{dob}` with the date of birth, `{region}` will be replaced with the region
 
 `proxy_file` The name of the file, from which the accounts should be loaded, can be deleted
 - format is `ip:port`. if you add a `/rotating` behind the proxy for example: `ip:port/rotating` the proxy will be marked as rotating
