@@ -45,6 +45,7 @@ show_total_accounts: false
 headless : true
 names_generator : true
 account_password : 'MYFancyPassword99#'
+mail_prefix: my_fancy_prefix
 ```
 `database` Configuration for your Database Connection
 - `database_name` the name of your database
@@ -72,7 +73,7 @@ account_password : 'MYFancyPassword99#'
 Example if your machines ip should be used
 `names_generator` set to `true`to use more realisitc usernames
 `account_password` if set all accounts will have the same password, if not a new random password will be generated
-
+`mail_prefix` if set klinklang will generate accounts using the plus technique. This will generate emails like `{prefix}+{username}@{domain}`
 ```yaml
 database:
   database_name: klinklang

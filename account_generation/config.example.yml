@@ -16,3 +16,4 @@ proxy_file: proxies.txt
 license: my_fancy_license
 show_total_accounts: false
 headless : true
+mail_prefix: my_fancy_account
