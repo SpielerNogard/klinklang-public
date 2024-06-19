@@ -21,6 +21,8 @@ rotation_learning/
 scrapoxy/
 *accounts*.txt
 *.egg-info
+*.log
+*.png
 __pycache__
 klinklang_frontend
 */dist
