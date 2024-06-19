@@ -47,6 +47,8 @@ names_generator : true
 account_password : 'MYFancyPassword99#'
 mail_prefix: my_fancy_prefix
 proxy_region: Germany
+random_subdomain: true
+subdomain_length: 32
 ```
 `database` Configuration for your Database Connection
 - `database_name` the name of your database
@@ -76,6 +78,8 @@ Example if your machines ip should be used
 `account_password` if set all accounts will have the same password, if not a new random password will be generated
 `mail_prefix` if set klinklang will generate accounts using the plus technique. This will generate emails like `{prefix}+{username}@{domain}`
 `proxy_region` : if set klinklang will not search for the region of the proxy, it will use the given region for account information
+`random_subdomain`: if set to true, klinklang will generate random subdomains for every account, for this your domain should support a catch all
+`subdomain_length`: default 32 set the length of your random subdomain
 ```yaml
 database:
   database_name: klinklang
