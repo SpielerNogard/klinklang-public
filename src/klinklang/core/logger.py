@@ -21,6 +21,7 @@ class Logger:
     def now() -> str:
         return datetime.datetime.now(datetime.timezone.utc).isoformat()
 
+    @property
     def _prefix(self):
         prefix = ""
         if self._name:

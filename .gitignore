@@ -36,3 +36,4 @@ account_generation/downloaded_files
 .venv
 
 account_auth
+data/

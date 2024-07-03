@@ -4,14 +4,14 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "klinklang"
-version = "0.0.1"
+version = "0.0.2"
 description = "Package that contains a logic used in klinklang services"
 readme = "README.md"
 requires-python = ">=3.8"
 authors = [
     {name = "Christopher Müller", email = "christophermueller2@outlook.de"},
 ]
-dependencies = []
+dependencies = ["peewee==3.17.5"]
 
 [project.urls]
 Homepage = "https://dashboard.klinklang.cloud"
