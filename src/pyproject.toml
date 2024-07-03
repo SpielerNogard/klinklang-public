@@ -1,0 +1,60 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "klinklang"
+version = "0.0.1"
+description = "Package that contains a logic used in klinklang services"
+readme = "README.md"
+requires-python = ">=3.8"
+authors = [
+    {name = "Christopher Müller", email = "christophermueller2@outlook.de"},
+]
+dependencies = []
+
+[project.urls]
+Homepage = "https://dashboard.klinklang.cloud"
+
+[tool.setuptools.packages.find]
+exclude=["*.tests", "*.tests.*", "tests.*", "tests"]
+
+[tool.ruff]
+line-length = 88
+indent-width = 4
+target-version = "py38"
+
+[tool.ruff.lint]
+# for more rules: https://docs.astral.sh/ruff/rules/
+select = [
+    "A",  # prevent using keywords that clobber python builtins
+    "E",  # pycodestyle
+    "F",  # pyflakes
+    "UP",  # alert you when better syntax is available in your python version
+    "I",  # isort
+    "N",   # PEP8 naming
+    "W"   # Warnings
+]
+
+[tool.ruff.format]
+# Like Black, use double quotes for strings.
+quote-style = "double"
+# Like Black, indent with spaces, rather than tabs.
+indent-style = "space"
+# Like Black, respect magic trailing commas.
+skip-magic-trailing-comma = false
+# Like Black, automatically detect the appropriate line ending.
+line-ending = "auto"
+# Enable reformatting of code snippets in docstrings.
+docstring-code-format = true
+
+[tool.commitizen]
+name = "cz_conventional_commits"
+tag_format = "$version"
+version_scheme = "semver"
+version_provider = "pep621"
+update_changelog_on_bump = true
+bump_message = "bump: $current_version → $new_version [skip-ci]"
+version_files = [
+    "klinklang/__init__.py",
+]

@@ -1,0 +1,6 @@
+repos:
+  - repo: https://github.com/commitizen-tools/commitizen
+    rev: 3.10.0
+    hooks:
+      - id: commitizen-branch
+        stages: [ push ]
