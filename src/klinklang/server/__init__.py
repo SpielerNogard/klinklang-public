@@ -16,8 +16,6 @@ class KlinkklangServer:
             user="root",
             password="password",
         )
-        self._workers = []
-        pass
 
     def add_worker(self, ip: str):
         logger.info(f"{ip} is requesting a new worker")
@@ -26,10 +24,10 @@ class KlinkklangServer:
             if worker.is_active is False:
                 worker.is_active = True
                 worker.save()
-                logger.info(f'Worker {worker.id} is now active')
+                logger.info(f"Worker {worker.id} is now active")
                 return worker.id
         worker = Worker.create(id=f"{ip}_{uuid.uuid4()}", is_active=True)
-        logger.info(f'Worker {worker.id} created and is now active')
+        logger.info(f"Worker {worker.id} created and is now active")
         return worker.id
 
     def start(self):
@@ -39,7 +37,11 @@ class KlinkklangServer:
         # load current state from db
         pass
 
+    def get_config_for_service(self, service: str):
+        return self._db.get_server_config(service)
+
+
 if __name__ == "__main__":
     server = KlinkklangServer()
     server.start()
-    print(server.add_worker(ip='192.168.198.22'))
+    print(server.add_worker(ip="192.168.198.22"))

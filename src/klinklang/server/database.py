@@ -15,13 +15,15 @@ logger = Logger("Database")
 DB_VERSIONS = [1]
 
 TABLES = [ServerConfig, Worker, Logs, Codes, Logs, Proxy]
+
+
 class KlinklangDatabase:
     def __init__(self, db_type: Literal["mariadb", "mysql"], **kwargs):
         if db_type in ["mariadb", "mysql"]:
             db.initialize(MySQLDatabase(**kwargs))
 
         db.connect()
-        #db.drop_tables(TABLES)
+        # db.drop_tables(TABLES)
         db.create_tables(TABLES)
 
         current_db_version = self.get_db_version()
@@ -48,6 +50,9 @@ class KlinklangDatabase:
                 return None
         except ServerConfig.DoesNotExist:
             return None
+
+    def get_server_config(self, config_name: str) -> ServerConfig:
+        return ServerConfig.get(ServerConfig.name == config_name)
 
     def create_db_version(self):
         """
