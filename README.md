@@ -49,6 +49,7 @@ mail_prefix: my_fancy_prefix
 proxy_region: Germany
 random_subdomain: true
 subdomain_length: 32
+proxy_cooldown : 1900
 ```
 `database` Configuration for your Database Connection
 - `database_name` the name of your database
@@ -80,6 +81,8 @@ Example if your machines ip should be used <br>
 `proxy_region` : if set klinklang will not search for the region of the proxy, it will use the given region for account information <br>
 `random_subdomain`: if set to true, klinklang will generate random subdomains for every account, for this your domain should support a catch all <br>
 `subdomain_length`: default 32 set the length of your random subdomain <br>
+`proxy_cooldown` : default 1900, the cooldown between the usage of the proxies in seconds <br>
+`binary_location` : default `None`, if set the binary will be used instead of the installed chrome version. For example if you have both Google Chrome and Brave installed on your mac (Chrome as default browser), and you want to use Brave set it to '/Applications/Brave Browser.app/Contents/MacOS/Brave Browser'
 ```yaml
 database:
   database_name: klinklang
