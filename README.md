@@ -104,6 +104,7 @@ binary_location: ''
 
 16. `binary_location`: if set the defined binary will be used instead of the installed chrome version. For example if you have both Google Chrome and Brave installed on your mac (Chrome as default browser) and you want to use Brave you would add to your config `binary_location: '/Applications/Brave Browser.app/Contents/MacOS/Brave Browser'`
 
+17. `email_code_waiting_max`: set the max attempts for waiting for the code from the email, default is 180
 ## FAQ
 
 #### What is the difference between MailReader and MailServer?
