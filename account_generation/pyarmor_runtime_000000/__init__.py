@@ -1,4 +1,4 @@
-# Pyarmor 8.5.10 (trial), 000000, 2024-07-26T15:07:26.937482
+# Pyarmor 8.5.2 (trial), 000000, 2024-08-12T14:54:40.615530
 def __pyarmor__():
     import platform
     import sys
@@ -30,11 +30,7 @@ def __pyarmor__():
             ('armv6', ('armv6l',)),
             ('armv7', ('armv7l',)),
             ('aarch32', ('aarch32',)),
-            ('aarch64', ('aarch64', 'arm64')),
-            ('ppc64le', ('ppc64le',)),
-            ('mips32el', ('mipsel', 'mips32el')),
-            ('mips64el', ('mips64el',)),
-            ('riscv64', ('riscv64',)),
+            ('aarch64', ('aarch64', 'arm64'))
         )
         for alias, archlist in arch_table:
             if mach in archlist:

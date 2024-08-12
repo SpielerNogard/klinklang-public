@@ -51,7 +51,6 @@ proxy_file: proxies.txt
 license: my_fancy_license
 show_total_accounts: false
 headless : true
-names_generator : true
 account_password : 'MYFancyPassword99#'
 mail_prefix: my_fancy_prefix
 proxy_region: Germany
@@ -88,23 +87,21 @@ binary_location: ''
 
 8. `headless`: `true` is the default, set it to `false` if you want to see the browser window, nice for debugging
 
-9. `names_generator`: set to `true`to use more realistic usernames (`true` is generally recommended)
+9. `account_password`: if set all accounts will have the same password, if not a new random password will be generated
 
-10. `account_password`: if set all accounts will have the same password, if not a new random password will be generated
+10. `mail_prefix`: if set klinklang will generate accounts using the plus technique. This will generate emails like `{prefix}+{username}@{domain}`
 
-11. `mail_prefix`: if set klinklang will generate accounts using the plus technique. This will generate emails like `{prefix}+{username}@{domain}`
+11. `proxy_region`: if set klinklang will not attempt to auto-detect the region of the proxy, it will use the defined region for account information
 
-12. `proxy_region`: if set klinklang will not attempt to auto-detect the region of the proxy, it will use the defined region for account information
+12. `random_subdomain`: if set to true, klinklang will generate random subdomains for every account, for this your domain should support a catch all (e.g. `true` results in `randomsubdomain.i-love-imperva.de`)
 
-13. `random_subdomain`: if set to true, klinklang will generate random subdomains for every account, for this your domain should support a catch all (e.g. `true` results in `randomsubdomain.i-love-imperva.de`)
+13. `subdomain_length`: set a custom length for random subdomains, if enabled
 
-14. `subdomain_length`: set a custom length for random subdomains, if enabled
+14. `proxy_cooldown`: default 1900, the cooldown between the usage of the proxies in seconds. Decreasing this will increase the risk of your proxies getting blocked but increases the potential speed at which you can create accounts.
 
-15. `proxy_cooldown`: default 1900, the cooldown between the usage of the proxies in seconds. Decreasing this will increase the risk of your proxies getting blocked but increases the potential speed at which you can create accounts.
+15. `binary_location`: if set the defined binary will be used instead of the installed chrome version. For example if you have both Google Chrome and Brave installed on your mac (Chrome as default browser) and you want to use Brave you would add to your config `binary_location: '/Applications/Brave Browser.app/Contents/MacOS/Brave Browser'`
 
-16. `binary_location`: if set the defined binary will be used instead of the installed chrome version. For example if you have both Google Chrome and Brave installed on your mac (Chrome as default browser) and you want to use Brave you would add to your config `binary_location: '/Applications/Brave Browser.app/Contents/MacOS/Brave Browser'`
-
-17. `email_code_waiting_max`: set the max attempts for waiting for the code from the email, default is 180
+16. `email_code_waiting_max`: set the max attempts for waiting for the code from the email, default is 180
 ## FAQ
 
 #### What is the difference between MailReader and MailServer?
