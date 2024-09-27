@@ -18,3 +18,13 @@ show_total_accounts: false
 headless : true
 mail_prefix: my_fancy_account
 webdriver_max_wait: 30
+network_blocks:
+  - "*.png"
+  - "*.ico"
+  - "*.css"
+  - "*.gvt1.com"
+  - "*.woff"
+  - "*.svg"
+  - "*.browser-intake-datadoghq.com"
+  - "*.googleapis.com"
+  - "_Incapsula_Resource"
