@@ -1,0 +1,14 @@
+proxy_file: proxies.txt
+#binary_location: '/Applications/Brave Browser.app/Contents/MacOS/Brave Browser'
+additional_sleep_time : 10
+network_blocks:
+  - "*.png"
+  - "*.ico"
+  - "*.css"
+  - "*.gvt1.com"
+  - "*.woff"
+  - "*.svg"
+  - "*.browser-intake-datadoghq.com"
+  - "*.googleapis.com"
+  - "_Incapsula_Resource"
+sms_pool_api_key: uTgwlQPhsTw3pdXxDi

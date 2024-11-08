@@ -1,0 +1,32 @@
+database:
+  database_name: klinklang
+  host: monogdb
+  password: mongoadmin
+  username: mongodb
+domains:
+  - domain_name: klinklang.de
+  - domain_name: klinklang2.de
+accounts:
+  save_to_file : true
+  format: '{email}, {username}, {password}, {dob}'
+proxy_file: proxies.txt
+license: 088077b3-7e50-48b6-8791-dbf466951c3d8
+show_total_accounts: false
+names_generator : true
+random_subdomain: true
+subdomain_length: 10
+headless: false
+proxy_region : Germany
+proxy_cooldown: 1900
+#binary_location: '/Applications/Brave Browser.app/Contents/MacOS/Brave Browser'
+additional_sleep_time : 10
+network_blocks:
+  - "*.png"
+  - "*.ico"
+  - "*.css"
+  - "*.gvt1.com"
+  - "*.woff"
+  - "*.svg"
+  - "*.browser-intake-datadoghq.com"
+  - "*.googleapis.com"
+  - "_Incapsula_Resource"

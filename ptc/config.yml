@@ -1,0 +1,8 @@
+database:
+  database_name: klinklang
+  host: mongodb
+  password: mongoadmin
+  username: mongodb
+domains:
+  domains:
+  - domain_name: mail.test.de

@@ -1,0 +1,108 @@
+services:
+  # Database, where all data is stored
+  mongodb:
+    container_name: klinklang-database
+    environment:
+      MONGO_INITDB_ROOT_PASSWORD: mongoadmin
+      MONGO_INITDB_ROOT_USERNAME: mongodb
+    image: mongo:6-jammy
+    logging:
+      driver: json-file
+      options:
+        max-file: '3'
+        max-size: 1m
+    networks:
+    - klinklang_net
+    ports:
+    - 27017:27017
+    restart: unless-stopped
+    volumes:
+    - ./database:/data/db
+  # Service for exporting accounts to Dragonite/RDM database
+  account_exporter:
+    container_name: klingklang-account_exporter
+    depends_on:
+      - mongodb
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    build:
+      context: .
+      dockerfile: account_exporter/Dockerfile
+    logging:
+      driver: json-file
+      options:
+        max-file: '3'
+        max-size: 1m
+    networks:
+      - klinklang_net
+    restart: unless-stopped
+    volumes:
+      - ./config.yml:/app/config.yml
+  # service for collecting different stats about your generations
+  stats_collector:
+    container_name: klingklang-stats_collector
+    depends_on:
+      - mongodb
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    build:
+      context: .
+      dockerfile: stats_collector/Dockerfile
+    logging:
+      driver: json-file
+      options:
+        max-file: '3'
+        max-size: 1m
+    networks:
+      - klinklang_net
+    restart: unless-stopped
+    volumes:
+      - ./config.yml:/app/config.yml
+
+  # Service for accepting emails and reading the code from them
+  mail_server:
+    container_name: klingklang-mail_server
+    depends_on:
+      - mongodb
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    build:
+      context: .
+      dockerfile: mail_server/Dockerfile
+    logging:
+      driver: json-file
+      options:
+        max-file: '3'
+        max-size: 1m
+    networks:
+      - klinklang_net
+    restart: unless-stopped
+    volumes:
+      - ./config.yml:/app/config.yml
+    ports:
+      - "25:25"
+
+  # Service for logging into a mailbox and reading the emails
+  mail_reader:
+    container_name: klingklang-mail_reader
+    depends_on:
+      - mongodb
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    build:
+      context: .
+      dockerfile: mail_reader/Dockerfile
+    logging:
+      driver: json-file
+      options:
+        max-file: '3'
+        max-size: 1m
+    networks:
+      - klinklang_net
+    restart: unless-stopped
+    volumes:
+      - ./config.yml:/app/config.yml
+
+networks:
+  klinklang_net:
+    driver: bridge

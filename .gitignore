@@ -3,14 +3,6 @@
 klinklang_public/imperva/core/scizorproxy.crx
 klinklang_public/imperva/core/scizorproxy.pem
 .DS_Store
-proxies.txt
-all_in_one/proxies.txt
-config.yml
-docker-compose.yml
-accounts.txt
-accounts_export.txt
-tes.py
-get_code.py
 .queue
 database
 build
