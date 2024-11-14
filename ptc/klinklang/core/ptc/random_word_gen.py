@@ -17,9 +17,7 @@ class RandomWordGen:
     def is_normal_characters(s):
         if not s:
             return False
-        # Define the regular expression pattern for normal characters (letters and digits)
         pattern = re.compile(r"^[a-zA-Z0-9]+$")
-        # Check if the string matches the pattern
         return bool(pattern.match(s))
 
     @staticmethod
