@@ -4,13 +4,10 @@ import re
 import string
 import uuid
 
-SPECIAL_CHARS = ['"', "/", ":", ",", "@", "#", "$", "%", "&"]
+SPECIAL_CHARS = ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '_', '+']
 this_dir = os.path.dirname(__file__)
 
 class RandomWordGen:
-    def __init__(self):
-        self.words = self._load_words()
-        print(f"Loaded {len(self.words)} words")
 
     @staticmethod
     def is_normal_characters(s):
@@ -20,53 +17,60 @@ class RandomWordGen:
         return bool(pattern.match(s))
 
     @staticmethod
-    def _load_words():
-        with open(os.path.join(this_dir, "words.txt")) as in_file:
-            content = in_file.readlines()
-        return [
-            word.strip() for word in content if RandomWordGen.is_normal_characters(word)
-        ]
+    def generate_syllables(length=3):
+        vowels = "aeiou"
+        consonants = "bcdfghjklmnpqrstvwxyz"
+        syllables = []
+        for _ in range(length):
+            syllable = random.choice(consonants) + random.choice(vowels)
+            syllables.append(syllable)
+        return "".join(syllables)
 
     @staticmethod
-    def random_part(length: int):
-        part = ''.join(random.choices(string.ascii_letters + string.digits + string.punctuation, k=length))
-        return part
+    def add_random_digits(name, num_digits=4):
+        name_list = list(name)
+        for _ in range(num_digits):
+            digit = str(random.randint(0, 9))
+            pos = random.randint(1, len(name_list) - 1)
+            name_list.insert(pos, digit)
+        return "".join(name_list)
 
-    def generate_username(self, lower_limit=6, upper_limit=16):
-        word1 = random.choice(self.words).replace(" ", "")
-        word2 = random.choice(self.words).replace(" ", "")
+    @staticmethod
+    def generate_password(lower_limit=12, upper_limit=24):
+        length = random.randint(lower_limit, upper_limit)
+        all_chars = string.ascii_letters + string.digits + "".join(SPECIAL_CHARS)
         
-        random_number = random.randint(1, 999)
-
-        username = f"{word1}{random_number}{word2}"
-
-        while len(username) < lower_limit:
-            username += random.choice(self.words).replace(" ", "")
-        username = username[:upper_limit]
-
-        return username
+       
+        password = [
+            random.choice(string.ascii_uppercase),
+            random.choice(string.ascii_lowercase),
+            random.choice(string.digits),
+            random.choice(SPECIAL_CHARS)
+        ]
+        
+        password += [random.choice(all_chars) for _ in range(length - 4)]
+        random.shuffle(password)
+        return "".join(password)
 
     @staticmethod
-    def _id_generator(size=12, chars=string.ascii_uppercase + string.digits):
-        generated = "".join(random.choice(chars) for _ in range(size))
-        for character in SPECIAL_CHARS:
-            generated = generated.replace(character, "")
-        return generated
+    def generate_username():
+        num_syllables = random.randint(3, 6)
+        
+        base_name = "".join([RandomWordGen.generate_syllables() for _ in range(num_syllables)])
 
-    def generate_password(self, username=None, lower_limit=13, upper_limit=32) -> str:
-        if username is None:
-            username = self.generate_username()
+        random_digits_count = random.randint(1, 3)
+        base_name = RandomWordGen.add_random_digits(base_name, random_digits_count)
+        
+        while len(base_name) < 10:
+            base_name += random.choice(string.ascii_lowercase)
+        
+        if len(base_name) > 16:
+            base_name = base_name[:16]
+        
+        return base_name
 
-        base_username = username.split()[0]
-        random_number = random.randint(10, 99)
-        special_char = random.choice(SPECIAL_CHARS)
-        random_upper = random.choice(string.ascii_uppercase)
-    
-        password = f"{base_username}{random_number}{special_char}{random_upper}"
 
-        while len(password) < lower_limit:
-            password += random.choice(string.ascii_letters + string.digits)
-
-        password = password[:upper_limit]
-
-        return password
+if __name__ == "__main__":
+    random_word_gen = RandomWordGen()
+    username = random_word_gen.generate_username()
+    password = random_word_gen.generate_password()
