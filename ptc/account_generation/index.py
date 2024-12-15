@@ -470,10 +470,13 @@ def generate(
     save_to_file: bool = False,
     format: str = "{email}, {username}, {password}, {dob}",
 ):
-    # Display the domain account chart
+    # Always initialize accounts_collection
     database_client = config.database.client()
     accounts_collection = database_client["accounts"]
-    display_domain_account_chart(accounts_collection)
+
+    # Display the domain account chart if the config option is True
+    if config.show_chart:
+        display_domain_account_chart(accounts_collection)
 
     # Check domain account limit
     max_accounts = config.max_accounts_per_domain

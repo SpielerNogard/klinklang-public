@@ -53,6 +53,7 @@ class Config(BaseModel):
     accounts: AccountSaveConfig = AccountSaveConfig()
     proxy_file: str = None
     show_total_accounts: bool = False
+    show_chart: bool = True  # New flag to control the domain account chart
     headless: bool = True
     names_generator: bool = False
     account_password: Optional[str] = None
