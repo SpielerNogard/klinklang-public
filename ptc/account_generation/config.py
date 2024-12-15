@@ -66,6 +66,7 @@ class Config(BaseModel):
     additional_sleep_time: int = 0
     webdriver_max_wait: int = 30
     network_blocks: Optional[List[str]] = None
+    max_accounts_per_domain: int = 100  # Default max accounts per domain
 
     @model_validator(mode="after")
     def load_proxie_file(self):
@@ -86,7 +87,6 @@ class Config(BaseModel):
                 if proxy:
                     proxies.append(Proxy(proxy=proxy, rotating=rotating))
         self.proxies = proxies
-        # return values
 
 
 def load_config():

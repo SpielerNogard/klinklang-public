@@ -20,6 +20,7 @@ proxy_region : Germany
 proxy_cooldown: 1900
 #binary_location: '/Applications/Brave Browser.app/Contents/MacOS/Brave Browser'
 additional_sleep_time : 10
+max_accounts_per_domain: 500  # Set your max accounts per domain here
 network_blocks:
   - "*.png"
   - "*.ico"
