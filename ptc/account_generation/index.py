@@ -10,6 +10,7 @@ import traceback
 from itertools import cycle
 from pprint import pprint
 from typing import Union, List
+from typing import Optional
 
 import pymongo
 import requests
@@ -84,6 +85,32 @@ def get_code_for_email(
     else:
         return code[0]["code"]
 
+def check_domain_account_limit(domain: str, max_accounts: Optional[int], collection: pymongo.collection.Collection) -> bool:
+    """
+    Check if the domain has reached the maximum allowed accounts and log the count.
+
+    Parameters
+    ----------
+    domain : str
+        The domain to check.
+    max_accounts : Optional[int]
+        The maximum number of accounts allowed for the domain. -1 means unlimited.
+    collection : pymongo.collection.Collection
+        The database collection containing accounts.
+
+    Returns
+    -------
+    bool
+        True if the limit is not exceeded, False otherwise.
+    """
+    domain_count = collection.count_documents({"email": {"$regex": f"@{domain}$"}})
+    if max_accounts == -1:  # Unlimited accounts
+        logger.info(f"Unlimited accounts allowed for domain '{domain}'. Current count: {domain_count}.")
+        return True
+    
+    result = domain_count < max_accounts
+    logger.info(f"Domain '{domain}' has {domain_count} accounts. Limit: {max_accounts}. Within limit: {result}.")
+    return result
 
 def generate_account(
     domain: str,
@@ -415,6 +442,33 @@ def save_account_to_file(account: dict, format: str):
     with open(os.path.join(file_dir, "accounts", file_name), "a") as f:
         f.write(f"{format}\n")
 
+def display_domain_account_chart(collection: pymongo.collection.Collection):
+    """
+    Display an ASCII chart showing the number of accounts for each domain in descending order.
+
+    Parameters
+    ----------
+    collection : pymongo.collection.Collection
+        The database collection containing accounts.
+    """
+    # Aggregate and count accounts for each domain
+    domain_counts = collection.aggregate([
+        {"$group": {"_id": {"$arrayElemAt": [{"$split": ["$email", "@"]}, 1]}, "count": {"$sum": 1}}},
+        {"$sort": {"count": -1}}
+    ])
+
+    # Prepare data for display
+    chart_data = [{"Domain": item["_id"], "Accounts": item["count"]} for item in domain_counts]
+
+    # Generate ASCII chart
+    print("\nDomain Account Counts:")
+    print("=" * 40)
+    print(f"{'Domain':<25} {'Accounts':>10}")
+    print("=" * 40)
+    for row in chart_data:
+        print(f"{row['Domain']:<25} {row['Accounts']:>10}")
+    print("=" * 40)
+
 
 def generate(
     domain: str,
@@ -423,6 +477,21 @@ def generate(
     save_to_file: bool = False,
     format: str = "{email}, {username}, {password}, {dob}",
 ):
+    # Always initialize accounts_collection
+    database_client = config.database.client()
+    accounts_collection = database_client["accounts"]
+
+    # Display the domain account chart if the config option is True
+    if config.show_chart:
+        display_domain_account_chart(accounts_collection)
+
+    # Check domain account limit
+    max_accounts = config.max_accounts_per_domain
+    if not check_domain_account_limit(domain, max_accounts, accounts_collection):
+        logger.error(f"Domain '{domain}' has reached the maximum allowed accounts ({max_accounts}). No account will be created.")
+        return False
+
+    # Proceed with account generation
     generated = False
     start = time.time()
     account = generate_account(
@@ -467,6 +536,7 @@ def generate(
     driver.save_screenshot(os.path.join(screenshot_dir, "success.png"))
     driver.quit()
     return generated
+
 
 
 def get_success_full_proxies(proxy_stats: dict, number: int = 10, success: bool = True):
@@ -595,51 +665,82 @@ if __name__ == "__main__":
 
     counter = 0
     send = False
+    current_proxy = None  # Keep track of the current proxy
+
     while True:
         try:
+            # Check if all domains have reached their limits
+            all_domains_maxed = True
+            for domain in config.domains:
+                max_accounts = config.max_accounts_per_domain
+                accounts_collection = config.database.client()["accounts"]
+                if check_domain_account_limit(domain.domain_name, max_accounts, accounts_collection):
+                    all_domains_maxed = False
+                    break
+
+            if all_domains_maxed:
+                logger.info("All domains have reached their maximum allowed accounts. Stopping script.")
+                sys.exit(0)
+
+            # Check for valid domains
+            valid_domain_found = False
             domain = next(domains)
-            # proxy = next(proxies)
-            proxy = find_oldest_proxy(config, usable_proxies)
-            if isinstance(proxy, Proxy):
-                # if proxy_usable(config, proxy.proxy, rotating=proxy.rotating):
-                insert_usage(proxy.proxy, proxy.rotating)
 
-                generated = generate(
-                    domain=domain.domain_name,
-                    proxy=proxy.proxy,
-                    save_to_file=account_save_config.save_to_file,
-                    format=account_save_config.format,
-                    config=config,
-                )
-                if generated is True:
-                    counter += 1
-
-                    # insert proxy stats
-                    _add_to_proxy_stats(proxy.proxy or get_own_ip(), success=True)
-                    # insert domain stats
-                    _add_to_domain_stats(domain.domain_name, success=True)
+            if not current_proxy:  # Rotate proxy if not set or after a loop
+                current_proxy = find_oldest_proxy(config, usable_proxies)
+                if isinstance(current_proxy, Proxy):
+                    insert_usage(current_proxy.proxy, current_proxy.rotating)
                 else:
-                    # insert proxy stats
-                    _add_to_proxy_stats(proxy.proxy or get_own_ip(), success=False)
+                    logger.warning("No valid proxy found. Retrying...")
+                    continue
 
-                    # insert domain stats
-                    _add_to_domain_stats(domain.domain_name, success=False)
+            # Check if the domain has reached its account limit
+            max_accounts = config.max_accounts_per_domain
+            if not check_domain_account_limit(domain.domain_name, max_accounts, accounts_collection):
+                logger.error(f"Domain '{domain.domain_name}' has reached its maximum allowed accounts ({max_accounts}).")
+                continue  # Skip to the next domain without rotating the proxy
+
+            valid_domain_found = True
+
+            # Generate an account
+            generated = generate(
+                domain=domain.domain_name,
+                proxy=current_proxy.proxy,
+                save_to_file=account_save_config.save_to_file,
+                format=account_save_config.format,
+                config=config,
+            )
+
+            if generated:
+                counter += 1
+                # Update proxy stats
+                _add_to_proxy_stats(current_proxy.proxy or get_own_ip(), success=True)
+                # Update domain stats
+                _add_to_domain_stats(domain.domain_name, success=True)
+                # Rotate proxy after successful generation
+                logger.info("Rotating proxy after successful account creation.")
+                current_proxy = None  # Force rotation in the next iteration
             else:
-                time_to_sleep = (
-                    (proxy + datetime.timedelta(seconds=SLEEPTIME))
-                    - datetime.datetime.now(datetime.timezone.utc)
-                ).total_seconds()
-                if time_to_sleep > 0:
-                    logger.info(
-                        f"You will hear me in {datetime.timedelta(seconds=time_to_sleep)}. Please dont forget me until then 😢."
-                    )
-                    time.sleep(time_to_sleep)
-        except Exception as e:
-            logger.error(f"OOPS something went wrong")
-            logger.error(f"{traceback.format_exc()}")
-            sys.exit()
+                logger.error(f"Account generation failed for domain: {domain.domain_name}. Rotating proxy.")
+                # Update proxy stats
+                _add_to_proxy_stats(current_proxy.proxy or get_own_ip(), success=False)
+                # Update domain stats
+                _add_to_domain_stats(domain.domain_name, success=False)
+                current_proxy = None  # Rotate proxy after failure
 
-        if counter % 10 == 0 and counter != 0 and send is False:
+        except Exception as e:
+            logger.error("An error occurred during account generation.")
+            logger.error(traceback.format_exc())
+            current_proxy = None  # Rotate proxy after an unhandled error
+            continue
+
+        # Rotate proxy if no valid domain was found
+        if not valid_domain_found:
+            logger.info("Rotating proxy because no valid domain was found.")
+            current_proxy = None
+
+        # Display session stats
+        if counter % 10 == 0 and counter != 0 and not send:
             send = True
         else:
             logger.info_cyan(f"Generated accounts in this session: {counter}")
