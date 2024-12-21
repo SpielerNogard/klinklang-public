@@ -10,6 +10,7 @@ import traceback
 from itertools import cycle
 from pprint import pprint
 from typing import Union, List
+from typing import Optional
 
 import pymongo
 import requests
@@ -84,7 +85,7 @@ def get_code_for_email(
     else:
         return code[0]["code"]
 
-def check_domain_account_limit(domain: str, max_accounts: int, collection: pymongo.collection.Collection) -> bool:
+def check_domain_account_limit(domain: str, max_accounts: Optional[int], collection: pymongo.collection.Collection) -> bool:
     """
     Check if the domain has reached the maximum allowed accounts and log the count.
 
@@ -92,8 +93,8 @@ def check_domain_account_limit(domain: str, max_accounts: int, collection: pymon
     ----------
     domain : str
         The domain to check.
-    max_accounts : int
-        The maximum number of accounts allowed for the domain.
+    max_accounts : Optional[int]
+        The maximum number of accounts allowed for the domain. -1 means unlimited.
     collection : pymongo.collection.Collection
         The database collection containing accounts.
 
@@ -103,7 +104,13 @@ def check_domain_account_limit(domain: str, max_accounts: int, collection: pymon
         True if the limit is not exceeded, False otherwise.
     """
     domain_count = collection.count_documents({"email": {"$regex": f"@{domain}$"}})
-    return domain_count < max_accounts
+    if max_accounts == -1:  # Unlimited accounts
+        logger.info(f"Unlimited accounts allowed for domain '{domain}'. Current count: {domain_count}.")
+        return True
+    
+    result = domain_count < max_accounts
+    logger.info(f"Domain '{domain}' has {domain_count} accounts. Limit: {max_accounts}. Within limit: {result}.")
+    return result
 
 def generate_account(
     domain: str,
@@ -662,6 +669,19 @@ if __name__ == "__main__":
 
     while True:
         try:
+            # Check if all domains have reached their limits
+            all_domains_maxed = True
+            for domain in config.domains:
+                max_accounts = config.max_accounts_per_domain
+                accounts_collection = config.database.client()["accounts"]
+                if check_domain_account_limit(domain.domain_name, max_accounts, accounts_collection):
+                    all_domains_maxed = False
+                    break
+
+            if all_domains_maxed:
+                logger.info("All domains have reached their maximum allowed accounts. Stopping script.")
+                sys.exit(0)
+
             # Check for valid domains
             valid_domain_found = False
             domain = next(domains)
@@ -676,7 +696,6 @@ if __name__ == "__main__":
 
             # Check if the domain has reached its account limit
             max_accounts = config.max_accounts_per_domain
-            accounts_collection = config.database.client()["accounts"]
             if not check_domain_account_limit(domain.domain_name, max_accounts, accounts_collection):
                 logger.error(f"Domain '{domain.domain_name}' has reached its maximum allowed accounts ({max_accounts}).")
                 continue  # Skip to the next domain without rotating the proxy

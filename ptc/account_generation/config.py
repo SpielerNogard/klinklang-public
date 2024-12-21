@@ -67,7 +67,7 @@ class Config(BaseModel):
     additional_sleep_time: int = 0
     webdriver_max_wait: int = 30
     network_blocks: Optional[List[str]] = None
-    max_accounts_per_domain: int = 999999  # Default max accounts per domain
+    max_accounts_per_domain: Optional[int] = -1  # Default to -1 for unlimited accounts
 
     @model_validator(mode="after")
     def load_proxie_file(self):
@@ -88,6 +88,10 @@ class Config(BaseModel):
                 if proxy:
                     proxies.append(Proxy(proxy=proxy, rotating=rotating))
         self.proxies = proxies
+        if self.max_accounts_per_domain == -1:
+            logger.info("No max_accounts_per_domain specified; defaulting to unlimited accounts.")
+        else:
+            logger.info(f"Max accounts per domain set to {self.max_accounts_per_domain}.")
 
 
 def load_config():
