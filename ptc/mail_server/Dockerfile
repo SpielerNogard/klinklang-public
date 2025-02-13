@@ -8,13 +8,16 @@ RUN apt-get update &&  apt-get install -y git
 WORKDIR /app
 
 # Copy only the requirements file and install dependencies
-COPY ./mail_server .
+COPY ./mail_server/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Install klinklang
 COPY ../klinklang /app/klinklang
 COPY ../pyproject.toml /app/pyproject.toml
 RUN pip install .
+
+# Install rest of files
+COPY ./mail_server .
 
 # Command to run the start script
 CMD [ "python", "index.py" ]
