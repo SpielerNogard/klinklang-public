@@ -38,6 +38,8 @@ services:
     restart: unless-stopped
     volumes:
       - ./config.yml:/app/config.yml
+      # add mounts for live edits
+      #- ./account_exporter/index.py:/app/index.py
   # service for collecting different stats about your generations
   stats_collector:
     container_name: klingklang-stats_collector
