@@ -359,7 +359,7 @@ def enter_username_and_password(driver: Driver, account: dict):
     driver.find_element("xpath", "//button[contains(text(), 'Accept')]").click()
     logger.info("Accepted data protection")
 
-    driver.find_element("xpath", "//button[contains(text(), 'Skip')]").click()
+    #driver.find_element("xpath", "//button[contains(text(), 'Skip')]").click()
     WebDriverWait(driver, WEBDRIVER_MAX_WAIT).until(
         lambda driver: driver.find_element(
             "xpath", "//h1[contains(text(), 'Enter the username and password')]"

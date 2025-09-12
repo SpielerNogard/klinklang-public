@@ -25,7 +25,6 @@ max_accounts_per_domain: 500  # Set your max accounts per domain here
 network_blocks:
   - "*.png"
   - "*.ico"
-  - "*.css"
   - "*.gvt1.com"
   - "*.woff"
   - "*.svg"
